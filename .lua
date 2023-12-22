@@ -10,6 +10,22 @@ local Window = OrionLib:MakeWindow({Name = "VIP Turtle Hub V3", HidePremium = fa
 local workspace = game:GetService("Workspace")
 
 local EggHandler = {}
+local houseList = {
+   "Starter Shack",
+   "Tiny House",
+   "Wizard Shack",
+   "Blacksmith",
+   "Stone House",
+   "Tall House",
+   "Cute House",
+   "Modern House",
+   "High Tech House",
+   "Modern Mansion"
+}
+
+local function NumberHandler(str)
+   return str:gsub("Starter Shack","1"):gsub("Tiny House","2"):gsub("Wizard Shack","3"):gsub("Blacksmith","4"):gsub("Stone House","5"):gsub("Tall House","6"):gsub("Cute House","7"):gsub("Modern House","8"):gsub("High Tech House","9"):gsub("Modern Mansion","10")
+end
 
 OrionLib:AddTable(workspace["GameObjects"]["Eggs"],EggHandler)
 
@@ -27,6 +43,12 @@ local T2 = Window:MakeTab({
 
 local T3 = Window:MakeTab({
    Name = "Egg",
+   Icon = "rbxassetid://",
+   PremiumOnly = false
+})
+
+local T4 = Window:MakeTab({
+   Name = "Build",
    Icon = "rbxassetid://",
    PremiumOnly = false
 })
@@ -155,6 +177,27 @@ T3:AddToggle({
         if _G.ah == false then break end
           game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["EggOpeningService"]["RF"]["Hatch"]:InvokeServer("Single",_G._egg_type)
           game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["EggOpeningService"]["RF"]["Skipped"]:InvokeServer()
+      end
+   end    
+})
+
+T4:AddDropdown({
+   Name = "Select building",
+   Default = houseList[1],
+   Options = houseList,
+   Callback = function(Value)
+     _G._build_type = NumberHandler(Value)
+  end    
+})
+
+T4:AddToggle({
+   Name = "Auto Buy Building",
+   Default = false,
+   Callback = function(Value)
+      _G.abb = Value
+      while wait() do
+        if _G.abb == false then break end
+          game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["PlotService"]["RF"]["BuyBlueprint"]:InvokeServer(tonumber(_G._build_type))
       end
    end    
 })
