@@ -126,16 +126,11 @@ T1:AddToggle({
    end    
 })
 
-T1:AddToggle({
-   Name = "Auto Sell Building",
-   Default = false,
-   Callback = function(Value)
-      _G.sb = Value
-      while wait() do
-        if _G.sb == false then break end
-          game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["PlotService"]["RF"]["SellBuild"]:InvokeServer()
-      end
-   end    
+T1:AddButton({
+Name = "End Tutorial",
+Callback = function()
+      game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["TutorialService"]["RF"]["TutorialCompleted"]:InvokeServer()
+  end    
 })
 
 T2:AddDropdown({
@@ -190,14 +185,21 @@ T4:AddDropdown({
   end    
 })
 
+T4:AddButton({
+Name = "Buy Building",
+Callback = function()
+      game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["PlotService"]["RF"]["BuyBlueprint"]:InvokeServer(tonumber(_G._build_type))		
+  end    
+})
+
 T4:AddToggle({
-   Name = "Auto Buy Building",
+   Name = "Auto Sell Building",
    Default = false,
    Callback = function(Value)
-      _G.abb = Value
+      _G.sb = Value
       while wait() do
-        if _G.abb == false then break end
-          game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["PlotService"]["RF"]["BuyBlueprint"]:InvokeServer(tonumber(_G._build_type))
+        if _G.sb == false then break end
+          game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["PlotService"]["RF"]["SellBuild"]:InvokeServer()
       end
    end    
 })
