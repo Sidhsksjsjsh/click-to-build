@@ -7,6 +7,12 @@ local T1 = Window:MakeTab({
    PremiumOnly = false
 })
 
+local T2 = Window:MakeTab({
+   Name = "Spin",
+   Icon = "rbxassetid://",
+   PremiumOnly = false
+})
+
 T1:AddToggle({
    Name = "Auto Click",
    Default = false,
@@ -74,6 +80,27 @@ T1:AddToggle({
       while wait() do
         if _G.sb == false then break end
           game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["PlotService"]["RF"]["SellBuild"]:InvokeServer()
+      end
+   end    
+})
+
+T2:AddDropdown({
+   Name = "Select spin",
+   Default = "Normal",
+   Options = {"Normal","Epic"},
+   Callback = function(Value)
+     _G._spin_type = Value
+  end    
+})
+
+T2:AddToggle({
+   Name = "Auto Spin",
+   Default = false,
+   Callback = function(Value)
+      _G.as = Value
+      while wait() do
+        if _G.as == false then break end
+          game:GetService("ReplicatedStorage")["Packages"]["Knit"]["Services"]["SpinService"]["RF"]["Spin"]:InvokeServer(_G._spin_type,false)
       end
    end    
 })
